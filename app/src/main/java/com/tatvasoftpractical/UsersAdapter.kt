@@ -20,7 +20,6 @@ class UsersAdapter(context:Context)  : RecyclerView.Adapter<UsersAdapter.MyViewH
         if (pageNo == 1){
             this.userList.clear()
         }
-        Log.d("setUsers == ", ""+userList.size)
         this.userList.addAll(users)
         notifyDataSetChanged()
     }
@@ -37,11 +36,11 @@ class UsersAdapter(context:Context)  : RecyclerView.Adapter<UsersAdapter.MyViewH
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher_round)
 
-        Glide.with(context).load(userList[position].avatar.toString()).apply(options).into(holder.imageView)
+        Glide.with(context).load(userList[position].avatar).apply(options).into(holder.imageView)
 
-        holder.personName.text = userList[position].first_name.toString() +" "+ userList[position].last_name.toString()
+        holder.personName.text = userList[position].first_name +" "+ userList[position].last_name
 
-        holder.personEmail.text = userList[position].email.toString()
+        holder.personEmail.text = userList[position].email
 
     }
 

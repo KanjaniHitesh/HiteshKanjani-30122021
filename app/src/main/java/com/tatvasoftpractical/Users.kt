@@ -60,14 +60,11 @@ class Users{
         this.support = support
     }
 
-    class Data {
-        var id: Int? = null
-        var email: String? = null
-        var first_name: String? = null
-        var last_name: String? = null
-        var avatar: String? = null
-
-    }
+    data class Data( var id: Int? = null,
+                     var email: String? = null,
+                     var first_name: String? = null,
+                     var last_name: String? = null,
+                     var avatar: String? = null)
 
     class Support {
         var url: String? = null
