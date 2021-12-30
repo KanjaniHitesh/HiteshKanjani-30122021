@@ -1,12 +1,13 @@
 package com.tatvasoftpractical
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
+
 
 class MainActivity : AppCompatActivity(), GridRecyclerViewAdapter.OnBoxClickListener {
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(), GridRecyclerViewAdapter.OnBoxClickList
                         setUpBoxArray(totalBoxes!!)
                     }
 
-                }catch (e:Exception){
+                }catch (e: Exception){
                     Log.d("MainActivity == e", e.toString())
                 }
 
@@ -67,7 +68,9 @@ class MainActivity : AppCompatActivity(), GridRecyclerViewAdapter.OnBoxClickList
             Log.d("TAG == ", randomNumber.index.toString())
             adapter?.updateActiveBox(randomNumber.index)
         }else{
-            Toast.makeText(this, "Yehhh You wan the game!", Toast.LENGTH_LONG).show()
+            val toast = Toast.makeText(this, "Yeh, You won the game!", Toast.LENGTH_LONG)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.show()
         }
 
     }
