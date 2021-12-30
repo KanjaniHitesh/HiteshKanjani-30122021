@@ -1,18 +1,25 @@
 package com.tatvasoftpractical
-
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.single_user.view.*
 
-class UsersAdapter  : RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
 
-    var userList  = mutableListOf<Users.Datum>()
+class UsersAdapter(context:Context)  : RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
 
-    fun setUsers(users: MutableList<Users.Datum>) {
-        Log.d("setUsers == ","")
+    var context = context;
+    var userList  = mutableListOf<Users.Data>()
+
+    fun setUsers(users: MutableList<Users.Data>, pageNo: Int) {
+        Log.d("setUsers == ", "")
+        if (pageNo == 1){
+            this.userList.clear()
+        }
         this.userList.addAll(users)
         notifyDataSetChanged()
     }
@@ -24,9 +31,16 @@ class UsersAdapter  : RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.personName.text = userList[position].firstName +" "+ userList[position].lastName
+        val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher_round)
 
-        holder.personEmail.text = userList[position].email
+        Glide.with(context).load(userList[position].avatar.toString()).apply(options).into(holder.imageView)
+
+        holder.personName.text = userList[position].first_name.toString() +" "+ userList[position].last_name.toString()
+
+        holder.personEmail.text = userList[position].email.toString()
 
     }
 
@@ -36,6 +50,7 @@ class UsersAdapter  : RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var personName = view.personName
+        var imageView = view.imageView
         var personEmail = view.personEmail
     }
 

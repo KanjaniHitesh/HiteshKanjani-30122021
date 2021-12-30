@@ -12,6 +12,9 @@ interface RetrofitService {
     @GET("api/user")
     fun getAllUsers(@Query("page") page :Int) : Call<Users>
 
+    @GET("api/user")
+    fun getUsers(@Query("page") page :Int) : Call<Any>
+
     companion object{
         var retrofitService: RetrofitService? = null
         fun getInstance() : RetrofitService {
