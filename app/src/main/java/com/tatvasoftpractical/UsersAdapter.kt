@@ -20,6 +20,7 @@ class UsersAdapter(context:Context)  : RecyclerView.Adapter<UsersAdapter.MyViewH
         if (pageNo == 1){
             this.userList.clear()
         }
+        Log.d("setUsers == ", ""+userList.size)
         this.userList.addAll(users)
         notifyDataSetChanged()
     }

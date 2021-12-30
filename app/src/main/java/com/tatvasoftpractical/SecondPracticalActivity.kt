@@ -19,6 +19,7 @@ class SecondPracticalActivity : AppCompatActivity() {
     var layoutManager: LinearLayoutManager?=null
     var isLoading : Boolean = false;
     var pageNo  = 1;
+    var totalPages  = 0;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +40,16 @@ class SecondPracticalActivity : AppCompatActivity() {
                 val pastVisibleItem = layoutManager?.findFirstCompletelyVisibleItemPosition()
                 val total = adapter?.itemCount
 
-                if (!isLoading) {
-                    if ((visibleItemCount!! + pastVisibleItem!!) >= total!!) {
-                        Log.d("==============="," === ");
-                        pageNo++
-                        callUserApi()
+                if(totalPages > pageNo ){
+                    if (!isLoading && totalPages!=0) {
+                        if ((visibleItemCount!! + pastVisibleItem!!) >= total!!) {
+                            Log.d("==============="," === ");
+                            pageNo++
+                            callUserApi()
+                        }
                     }
                 }
+
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
@@ -56,13 +60,14 @@ class SecondPracticalActivity : AppCompatActivity() {
         viewModel.getAllUsers(1)!!.observe(this@SecondPracticalActivity, Observer {
             if (it != null) {
                 isLoading = false;
-                Log.d("TAG === ", it.getData().toString())
+                totalPages = it.getTotalPages()!!
+                users.clear()
+//                Log.d("TAG === ", it.getData().toString())
                 for (i in it.getData()!!.indices) {
                     Log.d("===================", it.getData()!![i]!!.first_name.toString())
                     it.getData()!![i]?.let { it1 -> users.add(it1) }
-                    Log.d("TAG === ", users.toString())
                     if (i == it.getData()!!.size - 1) {
-                        Log.d("TAG === 1", users.toString())
+//                        Log.d("TAG === 1", users.toString())
                         adapter?.setUsers(users, pageNo)
 
                     }
