@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GridRecyclerViewAdapter.OnBoxClickListener {
 
     var valueNumber : Double? = 0.0
     var totalBoxes : Int? = 0
@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         adapter = GridRecyclerViewAdapter()
+        adapter?.setBoxListener(this)
 
         submit.setOnClickListener {
             if(number.text.isNotEmpty()){
@@ -53,9 +54,22 @@ class MainActivity : AppCompatActivity() {
             boxList.add(BoxModel(i, isActive = false, isSelected = false))
             if(i == totalBoxes){
                 adapter?.setBoxes(boxList.toMutableList())
-//                star
+                startActiveBoxToClick(boxList.toMutableList())
             }
         }
+    }
+
+    private fun startActiveBoxToClick(toMutableList: MutableList<BoxModel>) {
+        var list = toMutableList.filter { it-> !it.isActive }
+        Log.d("TAG == ", list.size.toString())
+        if(list.isNotEmpty()){
+            val randomNumber = list.random()
+            Log.d("TAG == ", randomNumber.index.toString())
+            adapter?.updateActiveBox(randomNumber.index)
+        }else{
+            Toast.makeText(this, "Yehhh You wan the game!", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     private fun setUpRecyclerView() {
@@ -64,4 +78,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
     }
+
+    override fun onClick(boxList: List<BoxModel>) {
+     startActiveBoxToClick(boxList as MutableList<BoxModel>)
+    }
+
 }
